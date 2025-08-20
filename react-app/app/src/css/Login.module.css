@@ -1,0 +1,28 @@
+.container {
+    max-width: 800px;
+    background-color: white;
+    border-radius: 20px;
+    margin: 100px auto;
+}
+
+.wrapper {
+    padding-top: 50px;
+    margin-inline: 50px;
+}
+
+.buttonWrapper {
+    text-align: center;
+    padding-bottom: 50px;
+    margin-top: 30px;
+}
+
+.button {
+    font-size: 1.5rem;
+    border-radius: 10px;
+    color: white;
+    background-color: #1765E5;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 30px;
+}

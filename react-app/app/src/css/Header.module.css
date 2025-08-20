@@ -1,0 +1,12 @@
+.header {
+    background-color: #006DF9;
+    margin: 0;
+    padding: 10px 50px;
+}
+
+.logo {
+    height: fit-content;
+    color: white;
+    margin: 0;
+    padding: 0;
+}

@@ -1,0 +1,23 @@
+.thanks__container {
+    max-width: 800px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    margin: 0 auto;
+}
+
+.button {
+    display: inline-block;
+    font-size: 1.5rem;
+    text-decoration: none;
+    border-radius: 10px;
+    color: white;
+    background-color: #1765E5;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 30px;
+    margin-top: 20px;
+}
