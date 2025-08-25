@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import axios from 'axios';
+
 import { Input } from '../components/Input.tsx'
 import { Textarea } from '../components/Textarea.tsx'
 import { ContactSchema } from "../validation/ContactSchema.ts";
@@ -23,8 +25,19 @@ export const Contact = () => {
     });
 
     const onSubmit = (data: ContactFormData) => {
-        console.log(data);
-        navigate("/thanks");
+
+        axios.post("http://localhost:8000/api/contact/store", {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            tell: data.tell,
+            email: data.email,
+            content: data.content,
+        })
+        .then((res) => {
+            console.log(res.data);
+            navigate("/thanks");
+        })
+        .catch((err) => console.error(err));
     };
 
     return (

@@ -18,3 +18,19 @@
     justify-content: space-between;
     padding-top: 50px;
 }
+
+.buttonWrapper {
+    text-align: center;
+    margin-top: 30px;
+}
+.button {
+    text-align: center;
+    font-size: 1rem;
+    border-radius: 10px;
+    color: white;
+    background-color: #1765E5;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+}

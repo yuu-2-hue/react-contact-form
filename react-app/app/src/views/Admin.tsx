@@ -1,60 +1,80 @@
-import styles from '../css/Admin.module.css'
+
+import { Table } from '../components/admin/Table';
+import { Search } from '../components/admin/Search';
+import { Pagination } from '../components/admin/Pagination';
+
+// import styles from '../css/Admin.module.css'
+
+import { useEffect, useState } from "react";
+
+import axios from "axios";
+
+type Contact = {
+    id: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+};
+
+type ApiResponse = {
+    data: Contact[];
+    current_page: number;
+    last_page: number;
+    next_page_url: string | null;
+    prev_page_url: string | null;
+};
 
 export const Admin = () => {
+
+    const [contacts, setContacts] = useState<Contact[]>([]);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [lastPage, setLastPage] = useState(1);
+
+    const [firstNameSearch, setFirstNameSearch] = useState("");
+    const [lastNameSearch, setLastNameSearch] = useState("");
+    const [emailSearch, setEmailSearch] = useState("");
+
+    const fetchContacts = async (page: number, firstName: string = "", lastName: string="",  email: string = "") => {
+        const response = await axios.get<ApiResponse>(
+            `http://localhost:8000/api/contact?page=${page}&firstName=${firstName}&lastName=${lastName}&email=${email}`
+        );
+        setContacts(response.data.data);
+        setCurrentPage(response.data.current_page);
+        setLastPage(response.data.last_page);
+    };
+
+    useEffect(() => {
+        fetchContacts(1);
+    }, []);
+
+    const handleSearch = () => {
+        fetchContacts(1, firstNameSearch, lastNameSearch, emailSearch);
+    };
+
+    const handlePageChange = (page: number) => {
+        fetchContacts(page, firstNameSearch, lastNameSearch, emailSearch);
+    };
+
     return (
-        <>
-            <div className={styles.container}>
-                <div className={styles.searchWrapper}>
-                    <input type="text" placeholder='名前を入力してください' />
-                    <input type="text" placeholder='メールアドレスを入力してください' />
-                    <button><img src="search.png" alt="" /></button>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>名前</th>
-                            <th>メールアドレス</th>
-                            <th>詳細</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>山田太郎</td>
-                            <td>yamada@example.com</td>
-                            <td><button>詳細</button></td>
-                        </tr>
-                        <tr>
-                            <td>山田太郎</td>
-                            <td>yamada@example.com</td>
-                            <td><button>詳細</button></td>
-                        </tr>
-                        <tr>
-                            <td>山田太郎</td>
-                            <td>yamada@example.com</td>
-                            <td><button>詳細</button></td>
-                        </tr>
-                        <tr>
-                            <td>山田太郎</td>
-                            <td>yamada@example.com</td>
-                            <td><button>詳細</button></td>
-                        </tr>
-                        <tr>
-                            <td>山田太郎</td>
-                            <td>yamada@example.com</td>
-                            <td><button>詳細</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div className={styles.paginationWrapper}>
-                    <button><img src="leftArrow.png" alt="" /></button>
-                    <span>1</span>
-                    <span>2</span>
-                    <span>3</span>
-                    <span>4</span>
-                    <span>5</span>
-                    <button><img src="rightArrow.png" alt="" /></button>
-                </div>
-            </div>
-        </>
+        <div style={{ maxWidth: "800px", textAlign: "center", margin: "0 auto" }}>
+            <Search
+                firstNameSearch={firstNameSearch}
+                lastNameSearch={lastNameSearch}
+                emailSearch={emailSearch}
+                setFirstNameSearch={setFirstNameSearch}
+                setLastNameSearch={setLastNameSearch}
+                setEmailSearch={setEmailSearch}
+                onSearch={handleSearch}
+            />
+
+            <Table contacts={contacts} />
+
+            <Pagination
+                currentPage={currentPage}
+                lastPage={lastPage}
+                onPageChange={handlePageChange}
+            />
+        </div>
     );
 }
