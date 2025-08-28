@@ -1,4 +1,6 @@
 
+import styles from '../../css/Search.module.css'
+
 type SearchProps = {
     firstNameSearch: string;
     lastNameSearch: string;
@@ -13,34 +15,27 @@ export const Search = ({ firstNameSearch, lastNameSearch, emailSearch, setFirstN
     return (
         <div style={{ marginTop: "40px", marginBottom: "20px" }}>
             <input
-                    type="text"
-                    placeholder="苗字で検索"
-                    value={firstNameSearch}
-                    onChange={(e) => setFirstNameSearch(e.target.value)}
-                    style={{ width: "240px", height:"30px", borderRadius:"5px", paddingInline: "5px"}}
-                />
-                <input
-                    type="text"
-                    placeholder="名前で検索"
-                    value={lastNameSearch}
-                    onChange={(e) => setLastNameSearch(e.target.value)}
-                    style={{ width: "240px", height:"30px", borderRadius:"5px", paddingInline: "5px", marginLeft: "10px" }}
-                />
-                <input
-                    type="text"
-                    placeholder="メールアドレスで検索"
-                    value={emailSearch}
-                    onChange={(e) => setEmailSearch(e.target.value)}
-                    style={{ width: "240px", height:"30px", borderRadius:"5px", paddingInline: "5px", marginLeft: "10px" }}
-                />
-            <button onClick={onSearch}
-                style={{
-                    width: "50px",
-                    height: "30px",
-                    borderRadius: "5px",
-                    marginLeft: "10px",
-                    cursor: "pointer"
-                }}>検索</button>
+                type="text"
+                placeholder="苗字で検索"
+                value={firstNameSearch}
+                onChange={(e) => setFirstNameSearch(e.target.value)}
+                className={styles.input}
+            />
+            <input
+                type="text"
+                placeholder="名前で検索"
+                value={lastNameSearch}
+                onChange={(e) => setLastNameSearch(e.target.value)}
+                className={`${styles.input} ${styles.marginLeft}`}
+            />
+            <input
+                type="text"
+                placeholder="メールアドレスで検索"
+                value={emailSearch}
+                onChange={(e) => setEmailSearch(e.target.value)}
+                className={`${styles.input} ${styles.marginLeft}`}
+            />
+            <button onClick={onSearch} className={`${styles.button} ${styles.marginLeft}`} >検索</button>
         </div>
     );
 };
