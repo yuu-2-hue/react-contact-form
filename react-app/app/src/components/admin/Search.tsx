@@ -33,7 +33,14 @@ export const Search = ({ firstNameSearch, lastNameSearch, emailSearch, setFirstN
                     onChange={(e) => setEmailSearch(e.target.value)}
                     style={{ width: "240px", height:"30px", borderRadius:"5px", paddingInline: "5px", marginLeft: "10px" }}
                 />
-                <button onClick={onSearch} style={{ width: "50px", height: "30px", marginLeft: "10px" }}>検索</button>
+            <button onClick={onSearch}
+                style={{
+                    width: "50px",
+                    height: "30px",
+                    borderRadius: "5px",
+                    marginLeft: "10px",
+                    cursor: "pointer"
+                }}>検索</button>
         </div>
     );
 };
