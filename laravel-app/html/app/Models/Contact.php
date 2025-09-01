@@ -13,4 +13,18 @@ class Contact extends Model
         'email',
         'content',
     ];
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+
+        return [
+            'id'        => $this->id,
+            'firstName' => $this->first_name,
+            'lastName'  => $this->last_name,
+            'tell'      => $this->tell,
+            'email'     => $this->email,
+            'content'   => $this->content,
+        ];
+    }
 }

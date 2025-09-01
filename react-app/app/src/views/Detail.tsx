@@ -1,10 +1,40 @@
 
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from 'axios';
+
 import { Input } from '../components/Input.tsx'
 import { Textarea } from '../components/Textarea.tsx'
 
 import styles from '../css/Detail.module.css'
+//import Contact from "./Contact.tsx";
+
+type Contact = {
+    id: number;
+    firstName: string;
+    lastName: string;
+    tell: string;
+    email: string;
+    content: string;
+};
 
 export const Detail = () => {
+
+    const [contact, setContact] = useState<Contact | null>(null);
+
+    const { id } = useParams();
+
+    useEffect(() => {
+        axios.get(`http://localhost:8000/api/contact/${id}`)
+        .then((res) => {
+            console.log(res.data);
+            setContact(res.data);
+        })
+        .catch((error) =>
+            console.error('エラー:', error)
+        );
+    }, []);
+
     return (
         <div className={styles.detailContainer}>
             <div className={styles.influenceWrapper}>
@@ -14,7 +44,7 @@ export const Detail = () => {
                         title='苗字'
                         width='250px'
                         backgroundColor='#fff'
-                        value=''
+                        value={contact?.firstName}
                         autoComplete='family-name'
                         readonly={true}
                     />
@@ -23,7 +53,7 @@ export const Detail = () => {
                         title='名前'
                         width='250px'
                         backgroundColor='#fff'
-                        value=''
+                        value={contact?.lastName}
                         autoComplete='given-name'
                         readonly={true}
                     />
@@ -34,7 +64,7 @@ export const Detail = () => {
                         title='電話番号'
                         width='600px'
                         backgroundColor='#fff'
-                        value=''
+                        value={contact?.tell}
                         autoComplete='tel'
                         readonly={true}
                     />
@@ -45,7 +75,7 @@ export const Detail = () => {
                         title='メールアドレス'
                         width='600px'
                         backgroundColor='#fff'
-                        value=''
+                        value={contact?.email}
                         autoComplete='email'
                         readonly={true}
                     />
@@ -56,6 +86,7 @@ export const Detail = () => {
                         width='600px'
                         height='200px'
                         backgroundColor='#fff'
+                        value={contact?.content}
                         readonly={true}
                     />
                 </div>

@@ -7,12 +7,13 @@ type TextareaProps = {
     width: string;
     height: string;
     backgroundColor: string;
+    value?: string;
     readonly: boolean;
     error?: string;
 }
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-    ({title, width, height, backgroundColor, readonly, error, ...rest}, ref) => {
+    ({title, width, height, backgroundColor, value, readonly, error, ...rest}, ref) => {
 
     const style = {
         width,
@@ -30,6 +31,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             <textarea
                 ref={ref}
                 style={style}
+                value={value}
                 readOnly={readonly}
                 placeholder={title + "を入力してください"}
                 {...rest}

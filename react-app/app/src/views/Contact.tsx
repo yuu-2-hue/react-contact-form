@@ -33,8 +33,7 @@ export const Contact = () => {
             email: data.email,
             content: data.content,
         })
-        .then((res) => {
-            console.log(res.data);
+        .then(() => {
             navigate("/thanks");
         })
         .catch((err) => console.error(err));

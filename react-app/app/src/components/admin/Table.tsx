@@ -5,8 +5,8 @@ import styles from '../../css/Table.module.css'
 
 type Contact = {
     id: number;
-    first_name: string;
-    last_name: string;
+    firstName: string;
+    lastName: string;
     email: string;
 };
 
@@ -34,7 +34,7 @@ export const Table = ({ contacts }: TableProps) => {
             <tbody>
                 {contacts.map((contact) =>
                     <tr key={contact.id}>
-                        <td>{contact.first_name + ' ' + contact.last_name}</td>
+                        <td>{contact.firstName + ' ' + contact.lastName}</td>
                         <td>{contact.email}</td>
                         <td><button className={styles.button} onClick={()=>handleToDetail(contact.id)}>詳細</button></td>
                     </tr>
