@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+
+use App\Mail\ContactMail;
 use App\Models\Contact;
 
 class ContactController extends Controller
@@ -52,6 +55,20 @@ class ContactController extends Controller
     {
         $contact = Contact::findOrFail($id);
         return $contact;
+    }
+
+    public function send(Request $request)
+    {
+        $validated = $request->validate([
+            'title'    => 'required|string',
+            'main' => 'required|string',
+        ]);
+
+        $email = Contact::find($request->input('id'))->email;
+
+        Mail::to($email)->send(new ContactMail($validated));
+
+        return response()->json(['message' => 'メール送信成功']);
     }
 
     /**

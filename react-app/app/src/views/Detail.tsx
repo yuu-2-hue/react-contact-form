@@ -1,10 +1,15 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import axios from 'axios';
 
 import { Input } from '../components/Input.tsx'
 import { Textarea } from '../components/Textarea.tsx'
+
+import { MailSchema } from "../validation/MailSchema.ts";
+import type {MailFormData} from "../validation/MailSchema.ts";
 
 import styles from '../css/Detail.module.css'
 //import Contact from "./Contact.tsx";
@@ -23,6 +28,26 @@ export const Detail = () => {
     const [contact, setContact] = useState<Contact | null>(null);
 
     const { id } = useParams();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<MailFormData>({
+        resolver: zodResolver(MailSchema),
+    });
+
+    const onSend = (data: MailFormData) => {
+        axios.post("http://localhost:8000/api/contact/send", {
+            id: id,
+            title: data.title,
+            main: data.main,
+        })
+        .then(() => {
+            console.log("メールを送信しました");
+        })
+        .catch((err) => console.error(err));
+    };
 
     useEffect(() => {
         axios.get(`http://localhost:8000/api/contact/${id}`)
@@ -91,7 +116,7 @@ export const Detail = () => {
                     />
                 </div>
             </div>
-            <form className={styles.influenceWrapper}>
+            <form className={styles.influenceWrapper} onSubmit={handleSubmit(onSend)}>
                 <div className={styles.wrapper}>
                     <Input
                         type='text'
@@ -100,6 +125,8 @@ export const Detail = () => {
                         backgroundColor='#fff'
                         value=''
                         autoComplete='off'
+                        {...register("title")}
+                        error={errors.title?.message}
                         readonly={false}
                     />
                 </div>
@@ -109,6 +136,8 @@ export const Detail = () => {
                         width='600px'
                         height='434px'
                         backgroundColor='#fff'
+                        {...register("main")}
+                        error={errors.main?.message}
                         readonly={false}
                     />
                 </div>
