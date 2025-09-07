@@ -4,19 +4,18 @@
     margin-bottom: 50px;
 }
 
-.influenceWrapper{
+.content{
     max-width: 600px;
     margin: 0 auto;
 }
 
-.wrapper {
+.paddingTop {
     padding-top: 50px;
 }
 
 .nameWrapper {
     display: flex;
     justify-content: space-between;
-    padding-top: 50px;
 }
 
 .buttonWrapper {
