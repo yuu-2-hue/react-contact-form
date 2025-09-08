@@ -1,78 +1,45 @@
 
+import { useEffect } from "react";
+import { useContacts } from "../hooks/useContacts";
+
 import { Table } from '../components/admin/Table';
 import { Search } from '../components/admin/Search';
 import { Pagination } from '../components/admin/Pagination';
 
-// import styles from '../css/Admin.module.css'
-
-import { useEffect, useState } from "react";
-
-import axios from "axios";
-
-type Contact = {
-    id: number;
-    firstName: string;
-    lastName: string;
-    email: string;
-};
-
-type ApiResponse = {
-    data: Contact[];
-    current_page: number;
-    last_page: number;
-    next_page_url: string | null;
-    prev_page_url: string | null;
-};
-
 export const Admin = () => {
 
-    const [contacts, setContacts] = useState<Contact[]>([]);
+    const { state, dispatch, fetchContacts } = useContacts();
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [lastPage, setLastPage] = useState(1);
-
-    const [firstNameSearch, setFirstNameSearch] = useState("");
-    const [lastNameSearch, setLastNameSearch] = useState("");
-    const [emailSearch, setEmailSearch] = useState("");
-
-    const fetchContacts = async (page: number, firstName: string = "", lastName: string="",  email: string = "") => {
-        const response = await axios.get<ApiResponse>(
-            `http://localhost:8000/api/contact?page=${page}&firstName=${firstName}&lastName=${lastName}&email=${email}`
-        );
-        setContacts(response.data.data);
-        setCurrentPage(response.data.current_page);
-        setLastPage(response.data.last_page);
-    };
-
+    // 初回ロード時
     useEffect(() => {
         fetchContacts(1);
     }, []);
 
+    // 検索ボタン押下時
     const handleSearch = () => {
-        fetchContacts(1, firstNameSearch, lastNameSearch, emailSearch);
+        fetchContacts(1);
     };
 
+    // ページ切り替え時
     const handlePageChange = (page: number) => {
-        fetchContacts(page, firstNameSearch, lastNameSearch, emailSearch);
+        fetchContacts(page);
     };
 
     return (
         <div style={{ maxWidth: "800px", textAlign: "center", margin: "0 auto" }}>
             <Search
-                firstNameSearch={firstNameSearch}
-                lastNameSearch={lastNameSearch}
-                emailSearch={emailSearch}
-                setFirstNameSearch={setFirstNameSearch}
-                setLastNameSearch={setLastNameSearch}
-                setEmailSearch={setEmailSearch}
+                firstName={state.firstName}
+                lastName={state.lastName}
+                email={state.email}
+                onChange={(field, value) =>dispatch({ type: "SET_SEARCH", field, value })}
                 onSearch={handleSearch}
             />
 
-            <Table contacts={contacts} />
+            {state.loading ? <p>Loading...</p> : <Table contacts={state.contacts} />}
 
             <Pagination
-                currentPage={currentPage}
-                lastPage={lastPage}
+                currentPage={state.page}
+                lastPage={state.lastPage}
                 onPageChange={handlePageChange}
             />
         </div>
