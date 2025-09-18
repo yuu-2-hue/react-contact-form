@@ -45,6 +45,7 @@ class ContactController extends Controller
             "content" => $request->content,
         ]);
 
+        $request->session()->regenerate();
         return response()->json($contact, 201);
     }
 

@@ -10,7 +10,7 @@ import { Input } from '../../components/Input.tsx';
 import { Textarea } from '../../components/Textarea.tsx';
 import styles from '../../css/Detail.module.css';
 
-import axios from 'axios';
+import api from "../../services/loginService";
 
 export const MailForm = () => {
 
@@ -24,8 +24,9 @@ export const MailForm = () => {
         resolver: zodResolver(MailSchema),
     });
 
-    const onSend = (data: MailFormData) => {
-        axios.post("http://localhost:8000/api/contact/send", {
+    const onSend = async (data: MailFormData) => {
+        await api.get("/sanctum/csrf-cookie");
+        await api.post("/api/contact/send", {
             id: id,
             title: data.title,
             main: data.main,
