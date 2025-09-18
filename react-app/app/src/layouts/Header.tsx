@@ -30,7 +30,7 @@ export const Header = () => {
                 <Link to="/thanks">Thanks</Link> | 
                 <Link to="/admin/login">Login</Link> | 
                 <Link to="/admin">Admin</Link> | 
-                <Link to="/admin/detail">Detail</Link>
+                <Link to="/admin/detail/1">Detail</Link>
             </nav>
             <button onClick={onSubmit}>ログアウト</button>
         </header>

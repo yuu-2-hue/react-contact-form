@@ -28,7 +28,7 @@ createRoot(document.getElementById('root')!).render(
           {/* 管理者 */}
           <Route path="/admin/login" element={<Login />} />
           <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
-          <Route path="/admin/detail" element={<ProtectedRoute><Detail /></ProtectedRoute>} />
+          <Route path="/admin/detail/:id" element={<ProtectedRoute><Detail /></ProtectedRoute>} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
